@@ -1,6 +1,5 @@
 import time
-
-from celery import Task
+import json
 
 from app import celery
 
@@ -16,4 +15,9 @@ def mult(a: int, b: int):
 
 @celery.task()
 def check(_):
-    return False
+    return True
+
+@celery.task()
+def save_state(retval, chains):
+    with open('chains.json', 'w') as f:
+        json.dump(chains, f)
