@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  rabbitmq:
+    image: rabbitmq:alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=rabitmqpass
+    ports: 
+      - "5672:5672"
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  celery:
+    build: .
+    command: celery -A app.celery worker -l info
+    environment: 
+      - CELERY_BROKER_URL=amqp://admin:rabitmqpass@rabbitmq//
+      - CELERY_RESULT_BACKEND=redis://redis/
+    depends_on:
+      - rabbitmq
+      - redis
+  web:
+    build: .
+    environment: 
+      - CELERY_BROKER_URL=amqp://admin:rabitmqpass@rabbitmq//
+      - CELERY_RESULT_BACKEND=redis://redis/
+    ports:
+      - "5000:5000"
+    depends_on:
+      - celery

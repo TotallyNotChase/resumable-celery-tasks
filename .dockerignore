@@ -1,0 +1,9 @@
+# Ignore vscode files
+.vscode/
+# Ignore virtual env
+venv/
+# Ignore .git
+.git/
+# Ignote pycache files
+*.pyc
+__pycache__/
