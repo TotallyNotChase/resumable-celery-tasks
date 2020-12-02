@@ -5,3 +5,5 @@ venv/
 # Ignote pycache files
 *.pyc
 __pycache__/
+# Ignore flask instance database
+instance/
