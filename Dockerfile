@@ -5,7 +5,7 @@ WORKDIR /resumable
 COPY . /resumable/
 
 # Set constant environment variables for flask
-ENV FLASK_APP=app.py
+ENV FLASK_APP=app
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Install necessary packages
