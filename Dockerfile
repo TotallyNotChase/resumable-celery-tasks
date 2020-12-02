@@ -22,4 +22,4 @@ USER dockusr
 EXPOSE 5000
 
 # Spawn the flask app
-CMD ["flask", "run"]
+CMD ["sh", "-c", "flask init-db && flask run"]
