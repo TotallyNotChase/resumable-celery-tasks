@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Operation ID: {{ operation_id }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+{% if status == "IN PROGRESS" %}
+  <p>Operation in progress</p>
+  <form method="post" action="{{ url_for('pause', operation_id=operation_id) }}">
+    <input type="submit" value="Pause">
+  </form>
+{% elif status == "PAUSED" %}
+  <p>Operation paused</p>
+  <form method="post" action="{{ url_for('resume', operation_id=operation_id) }}">
+    <input type="submit" value="Resume">
+  </form>
+  <form method="post" action="{{ url_for('cancel', operation_id=operation_id) }}">
+    <input type="submit" value="Cancel">
+  </form>
+{% elif status == "REQUESTING PAUSE" %}
+  <p>Requesting pause on operation - please wait</p>
+{% elif status == "CANCELLED" %}
+  <p>Operation cancelled</p>
+{% elif status == "COMPLETED" %}
+  <p>Task completed with result: {{ result }}</p>
+{% endif %}
+
+{% endblock %}

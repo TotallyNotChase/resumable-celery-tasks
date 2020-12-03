@@ -1,0 +1,24 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Resumable</title>
+<nav>
+  <h1><a href="{{ url_for('index') }}">Resumable</a></h1>
+  <ul>
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span></li>
+      <li><a href="{{ url_for('operations_index') }}">Operations</a></li>
+      <li><a href="{{ url_for('logout') }}">Log out</a></li>
+    {% else %}
+      <li><a href="{{ url_for('signup') }}">Sign up</a></li>
+      <li><a href="{{ url_for('login') }}">Log in</a></li>
+    {% endif %}
+  </ul>
+</nav>
+<section>
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

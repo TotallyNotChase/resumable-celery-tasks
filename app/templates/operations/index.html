@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Operations management{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post" action="{{ url_for('start') }}">
+    <input type="submit" value="New">
+  </form>
+  <h1> Your operations </h1>
+  <ul>
+    {% for _id, url in operations.items() %}
+      <li><a href="{{ url }}">Operation ID: {{ _id }}</a>
+    {% endfor %}
+  </ul>
+{% endblock %}
