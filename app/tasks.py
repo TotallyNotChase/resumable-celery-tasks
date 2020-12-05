@@ -1,7 +1,7 @@
 import os
 import time
 import json
-from typing import Any
+from typing import Any, List
 
 from app import app, celery
 from app.db import get_db
@@ -52,7 +52,7 @@ def should_pause(_, operation_id: int):
 
 
 @celery.task()
-def save_state(retval: Any, chains: dict, operation_id: int):
+def save_state(retval: Any, chains: List[dict], operation_id: int):
     # This is the `callback` to be used for `tappable`
     # i.e this is called when an operation is pausing
     db = get_db()
@@ -62,7 +62,7 @@ def save_state(retval: Any, chains: dict, operation_id: int):
     workflow_file = os.path.join(operation_dir, "workflow.json")
     if not os.path.isdir(operation_dir):
         os.makedirs(operation_dir, exist_ok=True)
-    
+
     # Store the remaining workflow chain, serialized into json
     with open(workflow_file, "w") as f:
         json.dump(chains, f)
