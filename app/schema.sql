@@ -1,7 +1,6 @@
 -- Drop existing tables
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS operations;
-DROP TABLE IF EXISTS operations_info;
 
 -- Create the user table
 CREATE TABLE user (
