@@ -20,7 +20,7 @@ def pause_or_continue(
 
 
 def tappable(ch: chain, clause: Signature, callback: Signature, nth: Optional[int] = 1):
-    '''
+    """
     Make a operation workflow chain pause-able/resume-able by inserting
     the pause_or_continue task for every nth task in given chain
 
@@ -51,7 +51,7 @@ def tappable(ch: chain, clause: Signature, callback: Signature, nth: Optional[in
 
     NOTE: The passed in chain is mutated in place
     Returns the mutated chain
-    '''
+    """
     newch = []
     for n, sig in enumerate(ch.tasks):
         if n != 0 and n % nth == nth - 1:
