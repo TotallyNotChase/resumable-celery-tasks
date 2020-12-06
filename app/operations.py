@@ -108,7 +108,7 @@ def resume(operation_id):
     if operation and operation["completion"] == "PAUSED":
         with open(operation["workflow_store"]) as f:
             workflow = json.load(f)
-        deserialize_chain(workflow)(operation["result"])
+        deserialize_chain(workflow)(int(operation["result"]))
 
         db.execute(
             """
