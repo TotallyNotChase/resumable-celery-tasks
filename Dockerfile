@@ -15,6 +15,8 @@ RUN pip install -r requirements.txt
 
 # Make the instance directory
 RUN mkdir /resumable/instance
+# Move the MOCK_DATA.csv file into the instance directory
+RUN mv MOCK_DATA.csv /resumable/instance/MOCK_DATA.csv
 
 # Grant the "nobody" user access and switch to it
 RUN chown -R nobody /resumable

@@ -16,6 +16,6 @@ CREATE TABLE operations (
   requester_id INTEGER NOT NULL,
   completion TEXT NOT NULL,
   workflow_store TEXT,
-  result TEXT,
+  result_store TEXT,
   FOREIGN KEY (requester_id) REFERENCES user (id)
 );
