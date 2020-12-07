@@ -134,12 +134,18 @@ def pause(operation_id):
         )
         db.commit()
         return {"operation_id": b64encode_id(operation_id), "success": True}
-
-    return {
-        "operation_id": b64encode_id(operation_id),
-        "success": False,
-        "message": "Invalid operation ID",
-    }
+    elif not operation:
+        return {
+            "operation_id": b64encode_id(operation_id),
+            "success": False,
+            "message": "Invalid operation ID",
+        }
+    else:
+        return {
+            "operation_id": b64encode_id(operation_id),
+            "success": False,
+            "message": "Operation is no longer in progress",
+        }
 
 
 @app.route("/operations/resume/<operation_id>", methods=("POST",))
@@ -174,12 +180,18 @@ def resume(operation_id):
         )
         db.commit()
         return {"operation_id": b64encode_id(operation_id), "success": True}
-
-    return {
-        "operation_id": b64encode_id(operation_id),
-        "success": False,
-        "message": "Invalid operation ID",
-    }
+    elif not operation:
+        return {
+            "operation_id": b64encode_id(operation_id),
+            "success": False,
+            "message": "Invalid operation ID",
+        }
+    else:
+        return {
+            "operation_id": b64encode_id(operation_id),
+            "success": False,
+            "message": "Operation is not paused",
+        }
 
 
 @app.route("/operations/cancel/<operation_id>", methods=("POST",))
@@ -204,9 +216,15 @@ def cancel(operation_id):
         )
         db.commit()
         return {"operation_id": b64encode_id(operation_id), "success": True}
-
-    return {
-        "operation_id": b64encode_id(operation_id),
-        "success": False,
-        "message": "Invalid operation ID",
-    }
+    elif not operation:
+        return {
+            "operation_id": b64encode_id(operation_id),
+            "success": False,
+            "message": "Invalid operation ID",
+        }
+    else:
+        return {
+            "operation_id": b64encode_id(operation_id),
+            "success": False,
+            "message": "Operation is not paused",
+        }
