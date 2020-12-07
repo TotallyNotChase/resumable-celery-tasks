@@ -14,6 +14,7 @@ def pause_or_continue(
         # chain should be reversed as the order of execution follows from end to start
         signature(callback)(retval, self.request.chain[::-1])
         self.request.chain = None
+        return "Pausing"
     else:
         # Continue to the next task in chain
         return retval
