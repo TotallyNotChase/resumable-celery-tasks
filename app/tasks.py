@@ -12,9 +12,9 @@ from app.tappable import tappable
 from app.utils import chunks_of, read_chunk
 
 # How many bytes to read from file per task
-READ_CHUNK_SIZE = 4096
+READ_CHUNK_SIZE = 131072
 # How many tasks to divide the csv parsing into (+-1)
-PARSE_CHUNK_AMOUNT = 5
+PARSE_CHUNK_AMOUNT = 100
 
 
 @celery.task()
@@ -94,12 +94,12 @@ def read_finish_continue(
             # Start the chain with the previous result (tuple of 3 elements: see `read_next`)
         ).delay(prevres)
         # Just a dummy return to aid in logging - doesn't really serve a purpose
-        return "Continuing reading"
+        return f"Continuing - Total rows read: {len(prevres[-1])}"
     else:
         # EOF reached, finished reading - initiate the callback task and pass it the final list of dicts
         signature(callback).delay(prevres[0])
         # Just a dummy return to aid in logging - doesn't really serve a purpose
-        return "Finished Reading"
+        return f"Finished Reading - Total rows read: {len(prevres[-1])}"
 
 
 @celery.task()
