@@ -31,6 +31,8 @@ The amount of memory being used may be around 6 GB and a minimum of 4 cores shou
 
 # Usage
 * Go to `http://127.0.0.1:5000/signup` and create an account
+  
+  There's no actual validation on the account name and password - it can be whatever, even a singular letter. The only purpose for this account system is to keep track of operations through the control bus (db)
 * Send a `POST` request to `http://127.0.0.1:5000/operations/start` (or simply go to `http://127.0.0.1:5000/operations` and click on the `New` button)
   
   ![operations_start](./images/operations_start.png)
