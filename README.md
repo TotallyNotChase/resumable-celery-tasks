@@ -18,7 +18,7 @@ And *any* **external state** - accesible through a **non-context-sensitive viewp
 # Deploy
 Run `docker-compose up --build` on the same directory as the `docker-compose.yml`
 
-The app uses a csv file of 1M rows by default. There's also a csv file with 10K rows, if you'd like to use that instead, set the environment variable `DATA_SIZE` to `10K` (should be exact)
+The app uses a csv file of 1M rows by default. There's also a csv file with 10K rows, if you'd like to use that instead, replace `1M` with `10K` on the dataset moving command - [here](https://github.com/TotallyNotChase/resumable-celery-tasks/blob/master/Dockerfile#L19)
 
 Remember to prune the docker volume incase any configuration changes are made and the app is being redeployed
 
@@ -27,7 +27,7 @@ Remember to prune the docker volume incase any configuration changes are made an
 ## Note on resource usage
 A celery task queue is highly efficient at a large scale (multiple workers, hundres of tasks at once, a full infastructure). However, since this is a very small demo - limited to just one operation. Although the operation is very long, it still doesn't utillize celery's full potential. At this scale, celery's resource usage may seem overkill but it *will* scale very well at an industrial level.
 
-The amount of memory being used may be around 6 GB and a minimum of 4 cores should be present on the system. If the memory usage is too high, change the `backend_cleanup` [periodic task's time interval](https://github.com/TotallyNotChase/resumable-celery-tasks/blob/0822e103457385804c82e6e5a5f83d637ba3c412/app/config.py#L11) to a lower value greater than 0 (in seconds).
+The amount of memory being used may be around 6 GB and a minimum of 4 cores should be present on the system. If the memory usage is too high, change the `backend_cleanup` [periodic task's time interval](https://github.com/TotallyNotChase/resumable-celery-tasks/blob/master/app/config.py#L11) to a lower value greater than 0 (in seconds).
 
 # Usage
 * Go to `http://127.0.0.1:5000/signup` and create an account
