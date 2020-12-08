@@ -101,7 +101,7 @@ def start():
         should_pause.s(operation_id),
         # Pause handler
         save_state.s(operation_id),
-    )()
+    ).delay()
 
     db.commit()
     return redirect(url_for("operation_info", operation_id=b64encode_id(operation_id)))
@@ -168,7 +168,7 @@ def resume(operation_id):
         # Initiate the remaining workflow and pass in the result
         # NOTE: The workflow itself is already tappable so pausing after
         # this point is also possible
-        deserialize_chain(workflow)(result)
+        deserialize_chain(workflow).delay(result)
 
         db.execute(
             """

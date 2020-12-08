@@ -92,7 +92,7 @@ def read_finish_continue(
             # Pause handler
             save_state.s(operation_id),
             # Start the chain with the previous result (tuple of 3 elements: see `read_next`)
-        )(prevres)
+        ).delay(prevres)
         # Just a dummy return to aid in logging - doesn't really serve a purpose
         return "Continuing reading"
     else:
@@ -141,7 +141,7 @@ def start_parsing(retval: List[Dict[str, str]], operation_id: int):
         save_state.s(operation_id),
         nth=2,
         # Pass the starting value for the `fold` operation
-    )(starting_accum)
+    ).delay(starting_accum)
 
 
 @celery.task()
