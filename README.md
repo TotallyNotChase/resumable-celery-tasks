@@ -5,7 +5,9 @@ The primary thing to demonstrate here is [`tappable.py`](./app/tappable.py). `ta
 
 However, demonstration of *how to use* `tappable` is equally important. Since the whole design revolves around having a valid workflow pattern and control bus.
 
-It's best to look at the tappable workflow demonstrated in [this commit](https://github.com/TotallyNotChase/resumable-celery-tasks/tree/40099acfa31a6b131da14eba6b95d090e4f06cc5) first. The current workflow operation is a more realistic demonstration, but is significanctly more complex. Once you have a grip of how to implement a very simple workflow pattern, aided by a simple db based control bus - continue to the complex example in the up-to-date commit.
+It's best to look at the tappable workflow demonstrated in [this commit](https://github.com/TotallyNotChase/resumable-celery-tasks/tree/40099acfa31a6b131da14eba6b95d090e4f06cc5/app/operations.py) first. It uses very basic tasks such as `add` and `mult` - defined [here](https://github.com/TotallyNotChase/resumable-celery-tasks/tree/40099acfa31a6b131da14eba6b95d090e4f06cc5/app/tasks.py).
+
+The current workflow operation is a more realistic demonstration, but is significanctly more complex. Once you have a grip of how to implement a very simple workflow pattern, aided by a simple db based control bus - continue to the complex example in the up-to-date commit.
 
 With that said, most complex operations *can* be converted into the workflow pattern. The concept demonstrated here is very flexible (infact, even without the other celery workflows integrated - `tappable` is still very flexible).
 
@@ -16,7 +18,16 @@ And *any* **external state** - accesible through a **non-context-sensitive viewp
 # Deploy
 Run `docker-compose up --build` on the same directory as the `docker-compose.yml`
 
+The app uses a csv file of 1M rows by default. There's also a csv file with 10K rows, if you'd like to use that instead, set the environment variable `DATA_SIZE` to `10K` (should be exact)
+
+Remember to prune the docker volume incase any configuration changes are made and the app is being redeployed
+
 **NOTE**: This app is for demonstration purposes only, hence it uses `flask run` instead of `gunicorn` + `nginx`
+
+## Note on resource usage
+A celery task queue is highly efficient at a large scale (multiple workers, hundres of tasks at once, a full infastructure). However, since this is a very small demo - limited to just one operation. Although the operation is very long, it still doesn't utillize celery's full potential. At this scale, celery's resource usage may seem overkill but it *will* scale very well at an industrial level.
+
+The amount of memory being used may be around 6 GB and a minimum of 4 cores should be present on the system. If the memory usage is too high, change the `backend_cleanup` [periodic task's time interval](https://github.com/TotallyNotChase/resumable-celery-tasks/blob/0822e103457385804c82e6e5a5f83d637ba3c412/app/config.py#L11) to a lower value greater than 0 (in seconds).
 
 # Usage
 * Go to `http://127.0.0.1:5000`
