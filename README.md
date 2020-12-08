@@ -30,17 +30,24 @@ A celery task queue is highly efficient at a large scale (multiple workers, hund
 The amount of memory being used may be around 6 GB and a minimum of 4 cores should be present on the system. If the memory usage is too high, change the `backend_cleanup` [periodic task's time interval](https://github.com/TotallyNotChase/resumable-celery-tasks/blob/0822e103457385804c82e6e5a5f83d637ba3c412/app/config.py#L11) to a lower value greater than 0 (in seconds).
 
 # Usage
-* Go to `http://127.0.0.1:5000`
-* Create an account through `signup`
-* Send a `POST` request to `http://127.0.0.1:5000/operations/start` (or simply go to `http://127.0.0.1:5000/operations` and click on the new button)
+* Go to `http://127.0.0.1:5000/signup` and create an account
+* Send a `POST` request to `http://127.0.0.1:5000/operations/start` (or simply go to `http://127.0.0.1:5000/operations` and click on the `New` button)
   
+  ![operations_start](./images/operations_start.png)
+
   This will initiate a tappable (pause/resume-able) operation and return the operation id
 * View operation info at `http://127.0.0.1:5000/operations/<operation_id>`
-* Send a `POST` request to `http://127.0.0.1:5000/operations/pause/<operation_id>` to request the operation to pause
-* Send a `POST` request to `http://127.0.0.1:5000/operations/cancel/<operation_id>` to request the operation to cancel
+  
+  ![operation_info](./images/operation_info.png)
+
+* Send a `POST` request to `http://127.0.0.1:5000/operations/pause/<operation_id>` to request the operation to pause (or simply go to `http://127.0.0.1:5000/operations/<operation_id>` and click on the `Pause` button)
+* Send a `POST` request to `http://127.0.0.1:5000/operations/resume/<operation_id>` to resume a paused operation (or simply go to `http://127.0.0.1:5000/operations/<operation_id>` and click on the `Resume` button)
+
+  ![operation_paused](./images/operation_paused.png)
+
+* Send a `POST` request to `http://127.0.0.1:5000/operations/cancel/<operation_id>` to request the operation to cancel (or simply go to `http://127.0.0.1:5000/operations/<operation_id>` and click on the `Cancel` button)
 
   Note: Operation must be paused before a cancel is attempted
-* Send a `POST` request to `http://127.0.0.1:5000/operations/resume/<operation_id>` to resume a paused operation
 
 # Explanation
 A full explanation on how to implement pause-able/resume-able celery tasks is written [here](./Explanation.md)
