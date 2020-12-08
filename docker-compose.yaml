@@ -11,9 +11,31 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
-  celery:
+  celery_beat:
     build: .
-    command: celery -A app.celery worker -l info
+    command: celery -A app.celery beat -l info
+    environment: 
+      - CELERY_BROKER_URL=amqp://admin:rabitmqpass@rabbitmq//
+      - CELERY_RESULT_BACKEND=redis://redis/
+    volumes:
+      - instance:/resumable/instance/
+    depends_on:
+      - rabbitmq
+      - redis
+  celery_worker1:
+    build: .
+    command: celery -A app.celery worker -l info -Q periodic_cleanup,celery -n worker1@%h
+    environment: 
+      - CELERY_BROKER_URL=amqp://admin:rabitmqpass@rabbitmq//
+      - CELERY_RESULT_BACKEND=redis://redis/
+    volumes:
+      - instance:/resumable/instance/
+    depends_on:
+      - rabbitmq
+      - redis
+  celery_worker2:
+    build: .
+    command: celery -A app.celery worker -l info -Q celery -n worker2@%h
     environment: 
       - CELERY_BROKER_URL=amqp://admin:rabitmqpass@rabbitmq//
       - CELERY_RESULT_BACKEND=redis://redis/
@@ -40,7 +62,8 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - celery
+      - celery_worker1
+      - celery_worker2
 
 volumes:
   instance:
