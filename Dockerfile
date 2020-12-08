@@ -7,8 +7,6 @@ COPY . /resumable/
 # Set constant environment variables for flask
 ENV FLASK_APP=app
 ENV FLASK_RUN_HOST=0.0.0.0
-# Set DATA_SIZE environment variable to the default 1M - unless otherwise specified
-ENV DATA_SIZE=${DATA_SIZE:-1M}
 
 # Install necessary packages
 RUN apk add --no-cache gcc musl-dev linux-headers
@@ -17,8 +15,8 @@ RUN pip install -r requirements.txt
 
 # Make the instance directory
 RUN mkdir /resumable/instance
-# Move the MOCK_DATA.csv file into the instance directory
-RUN mv "MOCK_DATA (${DATA_SIZE}).csv" /resumable/instance/MOCK_DATA.csv
+# Move the dataset file into the instance directory
+RUN mv "MOCK_DATA (1M).csv" /resumable/instance/MOCK_DATA.csv
 
 # Grant the "nobody" user access and switch to it
 RUN chown -R nobody /resumable
