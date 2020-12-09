@@ -38,7 +38,7 @@ def read_next(prevres: Tuple[List[str], int, List[Dict[str, str]]], filename: st
     Continuation task in the iterative csv reading operation
 
     Expects fieldnames, reading offset and any previously parsed csv
-    to be passed as its first argument
+    data to be passed as its first argument
 
     Reads a chunk starting from given offset, parses it and passes next offset
     and new list of dicts (from previous + current csv read) results to the next task
@@ -123,7 +123,7 @@ def start_parsing(retval: List[Dict[str, str]], operation_id: int):
     hence it's not suitable for `celery.chunks` - which is why a *chain*
     of manual chunks is used instead
 
-    This is mathematically comparable to a `fold` operation - the `accum` serves the same
+    This is comparable to a `fold` operation - the `accum` serves the same
     purpose here as it does in a `fold` operation. Celery's own `chunks` is a parallel `map`
     operation (which will still be useful for certain workflows)
     """
@@ -139,6 +139,7 @@ def start_parsing(retval: List[Dict[str, str]], operation_id: int):
         should_pause.s(operation_id),
         # Pause handler
         save_state.s(operation_id),
+        # Insert the `pause_or_continue` task after every 2nd task
         nth=2,
         # Pass the starting value for the `fold` operation
     ).delay(starting_accum)
