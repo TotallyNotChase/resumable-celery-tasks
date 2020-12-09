@@ -25,7 +25,7 @@ Remember to prune the docker volume incase any configuration changes are made an
 **NOTE**: This app is for demonstration purposes only, hence it uses `flask run` instead of `gunicorn` + `nginx`
 
 ## Note on resource usage
-A celery task queue is highly efficient at a large scale (multiple workers, hundres of tasks at once, a full infastructure). However, since this is a very small demo - limited to just one operation. Although the operation is very long, it still doesn't utillize celery's full potential. At this scale, celery's resource usage may seem overkill but it *will* scale very well at an industrial level.
+A celery task queue is highly efficient at a large scale (multiple workers, hundres of tasks at once, a full infastructure). However, since this is a very small demo - limited to just one operation - it doesn't seem very efficient. Although the operation is very long, it still doesn't utillize celery's full potential. At this scale, celery's resource usage may seem overkill but it *will* scale very well at an industrial level.
 
 The amount of memory being used may be around 6 GB and a minimum of 4 cores should be present on the system. If the memory usage is too high, change the `backend_cleanup` [periodic task's time interval](https://github.com/TotallyNotChase/resumable-celery-tasks/blob/master/app/config.py#L11) to a lower value greater than 0 (in seconds).
 
