@@ -12,7 +12,7 @@ kombu==5.0.2
 MarkupSafe==1.1.1
 prompt-toolkit==3.0.8
 pytz==2020.4
-redis==4.5.3
+redis==4.5.4
 six==1.15.0
 vine==5.0.0
 wcwidth==0.2.5
